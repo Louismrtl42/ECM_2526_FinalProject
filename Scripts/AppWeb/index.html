@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Addition App</title>
+</head>
+<body>
+  <h1>Additionneur</h1>
+  <form id="addForm">
+    <input type="number" step="any" id="a" placeholder="Nombre A" required>
+    <input type="number" step="any" id="b" placeholder="Nombre B" required>
+    <button type="submit">Calculer</button>
+  </form>
+  <p>Résultat : <span id="result"></span></p>
+
+  <script>
+    document.getElementById("addForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const a = document.getElementById("a").value;
+      const b = document.getElementById("b").value;
+
+      try {
+        const response = await fetch(`http://127.0.0.1:8000/add?a=${a}&b=${b}`);
+        const data = await response.json();
+        document.getElementById("result").textContent = data.result;
+      } catch (err) {
+        console.error("Erreur:", err);
+        document.getElementById("result").textContent = "Erreur lors de l'appel API";
+      }
+    });
+  </script>
+</body>
+</html>
